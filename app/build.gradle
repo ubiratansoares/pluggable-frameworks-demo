@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        testforrelease {
+            keyAlias 'testforrelease'
+            keyPassword '123456'
+            storeFile file('/Users/ubiratansoares/Desktop/testfortrelease.jks')
+            storePassword '123456'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "24.0.0"
     defaultConfig {
@@ -10,20 +18,38 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        jackOptions {
+            enabled true
+        }
+        signingConfig signingConfigs.testforrelease
     }
     buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix "-debug"
+        }
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.testforrelease
         }
+    }
+    productFlavors {
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:23.2.0'
+    compile 'com.jakewharton.timber:timber:4.1.2'
+    compile 'com.google.dagger:dagger:2.7'
+    annotationProcessor "com.google.dagger:dagger-compiler:2.7"
+    // Frameworks shared across all build variants
+    compile 'com.jakewharton.threetenabp:threetenabp:1.0.4'
+    compile 'com.jakewharton.timber:timber:4.3.1'
+    // These frameworks makes no sense in production builds
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4'
+    // This framework only makes sense in production builds
+    releaseCompile 'com.bugsnag:bugsnag-android:3.6.0'
     testCompile 'junit:junit:4.12'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4'
 }
