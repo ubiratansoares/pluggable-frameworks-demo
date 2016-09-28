@@ -43,13 +43,17 @@ dependencies {
     compile 'com.jakewharton.timber:timber:4.1.2'
     compile 'com.google.dagger:dagger:2.7'
     annotationProcessor "com.google.dagger:dagger-compiler:2.7"
+
     // Frameworks shared across all build variants
     compile 'com.jakewharton.threetenabp:threetenabp:1.0.4'
     compile 'com.jakewharton.timber:timber:4.3.1'
+
     // These frameworks makes no sense in production builds
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4'
+
     // This framework only makes sense in production builds
     releaseCompile 'com.bugsnag:bugsnag-android:3.6.0'
+
     testCompile 'junit:junit:4.12'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4'
 }
